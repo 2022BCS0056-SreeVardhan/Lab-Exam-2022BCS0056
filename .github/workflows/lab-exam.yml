@@ -65,12 +65,7 @@ jobs:
           BEST_MSE: ${{ vars.BEST_MSE }}
         run: |
           NEW_MSE="${{ steps.read_mse.outputs.new_mse }}"
-          IMPROVED=$(python - <<PY
-new_mse = float("$NEW_MSE")
-best_mse = float("$BEST_MSE")
-print("true" if new_mse < best_mse else "false")
-PY
-)
+          IMPROVED=$(python -c "print('true' if float('$NEW_MSE') < float('$BEST_MSE') else 'false')")
           echo "improved=$IMPROVED" >> "$GITHUB_OUTPUT"
 
           echo "Current BEST_MSE = $BEST_MSE"
